@@ -2,6 +2,14 @@
 
 **BLUF:** One craft, many skills. `skills/skill-from-domain/` is the method (Elicit, Diff, Encode) as a runnable skill for Claude Code: it takes a ticket or an expert's workflow and produces a skill folder with its process map, field map and evals. Domain bindings and the skills the craft produced live beside it, local to each machine. Started 2026-11-09.
 
+## Why a Skill
+
+A skill does not make the agent smarter. The model already holds more methods than any one expert, and for most tasks several of them work. Left alone, the agent picks one, and picks differently next time or on the next model. A skill fixes the choice: the agent does the task the user's way, with the user's checks, data sources and output shape, every run.
+
+So the two things a skill buys are consistency and alignment with the person who owns the work, not the best method. The requirements come from the domain expert; the skill keeps only the steps the agent gets wrong without them; the harness knowledge (triggering, loading, hooks, evals) turns those steps into a form the agent follows. The builder needs all three: the expert for the process, a cold run for the gap, the harness for the encoding.
+
+Two caveats keep this honest. State the chosen method as the house way, so a later expert can see it and upgrade it on purpose rather than by accident. Run the evals again whenever the underlying model changes: a line that landed on one model may be ignored by the next, and the eval set is the only thing that tells you.
+
 ## Layout
 
 | Path | What | Published |
