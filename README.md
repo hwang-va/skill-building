@@ -16,7 +16,7 @@ Two caveats keep this honest. State the chosen method as the house way, so a lat
 |---|---|---|
 | `skills/skill-from-domain/` | The core: seven steps from a written process or an expert to a skill folder. `references/writing.md` holds the writing, compression and eval rules, so it needs no other skill installed | yes |
 | `skills/<domain>-skill-builder/` | A binding: the core plus one domain's "where the truth is" table, tool list and landing spot. One file, under 40 lines | no, local |
-| `built/<name>/` | Every skill the craft produced: `01-process-map.md`, `skill/<name>/SKILL.md`, `references/fields.md`, `evals/evals.json` | no, local |
+| `built/<category>/<name>/` | Every skill the craft produced, grouped by category: `01-process-map.md`, `02-field-map.md`, `skill/<name>/SKILL.md`, `skill/<name>/evals/evals.json` | no, local |
 | `docs/learn-docs/` | The learning behind the method: the three moves, a map of skill anatomy and the five schools, a vocabulary, a crash course on the Anthropic sources. For the human builder | yes |
 
 Bindings and `built/` are ignored by git because they carry employer-specific paths and data. They are the proof; the method is the product.

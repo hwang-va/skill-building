@@ -5,7 +5,7 @@ description: Build a domain skill for an agent that works over MCP tools, from a
 
 # Skill from domain
 
-The model already knows the domain method. The skill is the difference between the expert's process and what the agent does cold. Produce four files: `SKILL.md` under one screen, `references/fields.md`, `evals/evals.json`, and a process map with the owner's open questions. Writing, compression and eval rules: `references/writing.md`. Anthropic's `skill-creator`, when installed, runs the evals; nothing else is required.
+The model already knows the domain method. The skill is the difference between the expert's process and what the agent does cold. Produce four files: `SKILL.md` under one screen and `evals/evals.json` inside the skill folder; beside it, a process map with the owner's open questions and a field map (`02-field-map.md`). The field map is reviewer evidence and does not ship to the agent. Writing, compression and eval rules: `references/writing.md`. Anthropic's `skill-creator`, when installed, runs the evals; nothing else is required.
 
 ## 1. Read the written process at its source
 
@@ -28,7 +28,7 @@ One row per step: what the expert does, the check, the field that answers it, wh
 Sections, in this order, each kept only if it names a misfire it prevents:
 
 - Calls: the defaults and gaps the tool text omits (default date, default basis, what "all" means, where a second figure sits on the same row).
-- Where the fields are: the table from step 2, short; the full map in `references/fields.md`.
+- Where the fields are: the table from step 2, short; the full map stays in `02-field-map.md`, outside the skill.
 - Arithmetic: what the agent may compute from returned rows, labelled as computed, and what it must refuse. Decide this line explicitly or the agent decides per question.
 - Refuse, and say why: one line per `none` and per edge case, with the words the agent should say.
 - Data quality: stale, missing, ambiguous; flag, give no value, never substitute.
@@ -40,7 +40,7 @@ Anchor, never instruct: name the tool and the field, not the JSON mechanics the 
 
 ## 6. Evals
 
-`evals/evals.json` in the schema given in `references/writing.md`: `id`, `prompt` verbatim from the ticket, `expected_output` in one line, two to four `expectations` each stated about the output or the tool calls ("ResolveNames called before GetHoldings", "no figure given for unfunded par", "the answer asks which"). Add one near-miss prompt that should not trigger the skill.
+`evals/evals.json` in the schema given in `references/writing.md`: `id`, `prompt` verbatim from the ticket, `expected_output` in one line, two to four `expectations` each stated about the output or the tool calls ("ResolveNames called before GetHoldings", "no figure given for unfunded par", "the answer asks which"). Add one near-miss prompt that should not trigger the skill. `evals/` sits in the skill folder while the skill is built and is left out when it ships: `skill-creator`'s `package_skill.py` strips it, and a hand-off by any other route does the same.
 
 ## 7. Done when
 

@@ -16,7 +16,7 @@ Per-word audit: for every word, state the misfire it prevents (the agent fires o
 - Shape: label, colon, sentence. BLUF first. One term per thing; no synonyms for the same field or state.
 - One real example of the output, filled, from the source material; never a blank template.
 - Paths, tool names, field names rooted and in backticks.
-- Under 60 lines. Move tables and maps to `references/`; `SKILL.md` keeps only what the agent needs on every run.
+- Under 60 lines. `SKILL.md` keeps only what the agent needs on every run. The full field map is reviewer evidence: it goes beside the process map, outside the skill folder. `references/` holds only what the agent itself reads.
 
 ## Process map
 
