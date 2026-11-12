@@ -1,15 +1,15 @@
 ---
 name: skill-from-domain
-description: Build a domain skill for an agent that works over MCP tools, from a ticket or an expert's workflow, by the three moves Elicit, Diff, Encode. Reads the written process at its source, maps every requirement to the real tool fields in code, crosses out what the harness already says, writes only the difference, and turns the acceptance tests into evals. Use when asked to "draft the skill for <ticket>", "turn this workflow into a skill", or build a skill whose data comes from named tools.
+description: Build a domain skill for an agent that works over MCP tools, from a ticket or an expert's workflow, by the three moves Elicit, Diff, Encode. Reads the written process at its source, maps every requirement to the real tool fields in code, crosses out what the harness already says, writes only the difference, and turns the acceptance tests into evals. Use when asked to "draft the skill for this ticket", "turn this workflow into a skill", or build a skill whose data comes from named tools.
 ---
 
 # Skill from domain
 
-The model already knows the domain method. The skill is the difference between the expert's process and what the agent does cold. Produce four files: `SKILL.md` under one screen and `evals/evals.json` inside the skill folder; beside it, a process map with the owner's open questions and a field map (`02-field-map.md`). The field map is reviewer evidence and does not ship to the agent. Writing, compression and eval rules: `references/writing.md`. Anthropic's `skill-creator`, when installed, runs the evals; nothing else is required.
+The model already knows the domain method. The skill is the difference between the expert's process and what the agent does cold. Produce four things: a lean `SKILL.md` and an `evals/` folder of test cases inside the skill folder; beside it, a process map with the owner's open questions and a field map (`02-field-map.md`). The field map is reviewer evidence and does not ship to the agent. Writing, description and eval rules: `references/writing.md`, which follows Anthropic's `skill-creator`. `skill-creator`, when installed, or `claude plugin eval` runs the evals; nothing else is required.
 
 ## 1. Read the written process at its source
 
-Fetch the ticket or document itself, by tool, not from a paste. Keep Goal, Scope out, Requirements, Acceptance Tests and Dependencies verbatim in the process map. The acceptance tests are the evals. The failure and edge-case rows are the scar list: the skill exists for them; the harness mostly passes the easy rows already.
+Fetch the ticket or document itself, by tool, not from a paste. Keep Goal, Scope out, Requirements, Acceptance Tests and Dependencies verbatim in the process map. The acceptance tests are the evals. The failure and edge-case rows are the scar list: the skill exists for them; the harness mostly passes the easy rows already. Set aside held-out prompts now, before any drafting: requests the source never lists, from the expert or from the requirement rows. They become eval cases in step 6 and show whether the skill is general or fitted to its tests.
 
 ## 2. Find the agent's real data path in code
 
@@ -36,15 +36,15 @@ Sections, in this order, each kept only if it names a misfire it prevents:
 - Say a number: one real example from the ticket; every number carries entity, field, currency, date.
 - Read only, when the tools are.
 
-Anchor, never instruct: name the tool and the field, not the JSON mechanics the tool text already gives. Positive targets; a prohibition only where it cannot be phrased positively. Description last: trigger plus outcome, third person, no procedure.
+Anchor, never instruct: name the tool and the field, not the JSON mechanics the tool text already gives. Give each rule its reason in a plain sentence, so the agent can handle the case the rule did not name. Positive targets; a prohibition only where it cannot be phrased positively. Description last: what the skill does and when to use it, third person, leaning toward firing, no procedure.
 
 ## 6. Evals
 
-`evals/evals.json` in the schema given in `references/writing.md`: `id`, `prompt` verbatim from the ticket, `expected_output` in one line, two to four `expectations` each stated about the output or the tool calls ("ResolveNames called before GetHoldings", "no figure given for unfunded par", "the answer asks which"). Add one near-miss prompt that should not trigger the skill. `evals/` sits in the skill folder while the skill is built and is left out when it ships: `skill-creator`'s `package_skill.py` strips it, and a hand-off by any other route does the same.
+One folder per case under `evals/`, in the format given in `references/writing.md`: `prompt.md` with the prompt verbatim from the ticket, `case.yaml` with the expected outcome in one line, and two to four checks, one grader file each, stated about the output or the tool calls ("ResolveNames called before GetHoldings", "no figure given for unfunded par", "the answer asks which"). Add the held-out prompts from step 1 as cases, and one neighbouring request the skill should leave alone. `evals/` sits in the skill folder while the skill is built and is left out when it ships: `skill-creator`'s `package_skill.py` strips it, and a hand-off by any other route does the same.
 
 ## 7. Done when
 
-The field table has no `?` without an owner question. `SKILL.md` is under 60 lines and every line names its misfire. The evals ran with and without the skill, on a mock server when no live one is reachable, and the delta is written in the process map. `claude plugin validate` passes once the skill sits in its plugin. One named person ran it.
+The field table has no `?` without an owner question. Every rule in `SKILL.md` names its misfire and carries its reason. The evals ran with and without the skill, held-out cases included, on a mock server when no live one is reachable; the expert saw the outputs, and the delta is written in the process map. `claude plugin validate` passes once the skill sits in its plugin. One named person ran it.
 
 ## Scars from the first run (a holdings skill over read-only MCP tools, 2026-11-09)
 
