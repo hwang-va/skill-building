@@ -9,7 +9,7 @@ Per-word audit: for every word, state the misfire it prevents (the agent fires o
 
 ## Body
 
-- Anchor, never describe. Name the method, the tool, the field, the standard, and whose it is. Writing out how the anchor works fights what the model knows and overweights whichever sub-step got written.
+- Anchor or spell out. Ask once per skill: is there a named method, standard or tool the model already knows, and is it still the one the expert uses? Yes: anchor, never describe. Name the method, the tool, the field, the standard, and whose it is; writing out how the anchor works fights what the model knows and overweights whichever sub-step got written. No (frontier work, or the known method is stale): the expert's walk from the process map is the anchor, so write the steps in full and in order, because there is nothing to point at.
 - Only the diff. Every line names the misfire it prevents in the cold run. A line the agent would obey anyway is a no-op: delete it whole, do not trim it.
 - Positive targets. Say what to do; keep a prohibition only where no positive form exists, and pair it with the words the agent should say instead.
 - Telegraphic allowed, lossless content. Drop articles, copulas and filler; keep every path, number, name, list item and negation verbatim. A version missing a fact the longer one stated is a summary, not compression.
